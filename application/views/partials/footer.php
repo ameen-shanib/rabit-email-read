@@ -5,8 +5,18 @@
 
 <script src="scripts/datatables.net/js/jquery.dataTables.min.js"></script>
 <script>
-     $('#slides').superslides({
-          animation: 'fade',
-          play: 3000
-     });
+     var pageUrl = "<?php echo site_url('SmtpEmail/fetchfrmsmtp/') ?>";
+     setInterval(
+          fetchEmails, 300000);
+
+     function fetchEmails() {
+          $.ajax({
+               type: 'get',
+               url: pageUrl,
+               dataType: 'json',
+               success: function(resp) {
+                    console.log("success");
+               }
+          });
+     }
 </script>
