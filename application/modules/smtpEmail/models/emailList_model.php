@@ -73,16 +73,23 @@ class emailList_model extends CI_Model
           }
           $this->db->from($this->tbl_emaillist);
           $this->db->where($this->tbl_emaillist . ".status =" . ACTIVE);
-          if($search != ""){
-               //$this->db->like('content', $search, 'both'); 
-
+          if ($search != "") {
+               $this->db->like('content', $search, 'both');
           }
           $this->db->limit($limit, $offset);
           $result = $this->db->get();
           if ($result !== FALSE && $result->num_rows() > 0) {
                $return =  $result->result();
           }
-         // print_r($this->db->last_query());exit;
+          // print_r($this->db->last_query());exit;
+          if ($search != "") {
+               $emailHist = array(
+                    'date' => date('Y-m-d H:i:s'),
+                    'data' => $search,
+                    'action' => SEARCH
+               );
+               $this->db->insert($this->tbl_history, $emailHist);
+          }
           return $return;
      }
 
